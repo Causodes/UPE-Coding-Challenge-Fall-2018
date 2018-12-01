@@ -91,7 +91,6 @@ def df_search(curr_position):
 
 		elif(result == 'END'):
 			maze[new_position[1]][new_position[0]] = 'E'
-			print(DataFrame(maze))
 			return True
 
 	return False
@@ -119,13 +118,10 @@ while(True):
 	(x_dim, y_dim) = dimension
 	(x_start, y_start) = position
 
-	print(status)
-	print(position)
-	print(dimension)
-
 	maze = [['?' for _ in range(x_dim) ] for _ in range(y_dim)]
 	maze[y_start][x_start] = 'S'
 
 	if(df_search(position)):
+		print(DataFrame(maze))
 		print('Level %d Complete!' % (game_data['levels_completed']))
 
