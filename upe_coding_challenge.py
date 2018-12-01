@@ -15,10 +15,13 @@ session = requests.post(url + '/session', data = uid)
 session_data = session.json()
 TOKEN = session_data['token']
 """print(TOKEN)"""
+x_dim = None;
+y_dim = None;
 
 """Depth First Search"""
 
 def df_search(curr_position):
+	'''print(DataFrame(maze))'''
 	for action in ['UP', 'LEFT', 'DOWN', 'RIGHT']:
 
 		x_pos = curr_position[0]
@@ -58,8 +61,8 @@ def df_search(curr_position):
 		result = data['result']
 
 		if(result == 'SUCCESS'):
-			"""print("MOVE " + action)"""
-			"""print(new_position)"""
+			'''print("MOVE " + action)'''
+			'''print(new_position)'''
 			maze[new_position[1]][new_position[0]] = ' '
 			if(df_search(new_position)):
 				return True
@@ -67,26 +70,26 @@ def df_search(curr_position):
 			else:
 				if(action == 'UP'):
 					move = {'action' : 'DOWN'}
-					"""print("BACKTRACK DOWN")"""
+					'''print("BACKTRACK DOWN")'''
 
 				elif(action == 'DOWN'):
 					move = {'action' : 'UP'}
-					"""print("BACKTRACK UP")"""
+					'''print("BACKTRACK UP")'''
 
 				elif(action == 'LEFT'):
 					move = {'action' : 'RIGHT'}
-					"""print("BACKTRACK RIGHT")"""
+					'''print("BACKTRACK RIGHT")'''
 
 				elif(action == 'RIGHT'):
 					move = {'action' : 'LEFT'}
-					"""print("BACKTRACK LEFT")"""
+					'''print("BACKTRACK LEFT")'''
 
 			response = requests.post(url + '/game?token=' + TOKEN, data=move)
 			time.sleep(0.010)
 
 		elif(result == 'WALL'):
 			maze[new_position[1]][new_position[0]] = 'W'
-			"""print("WALL " + action)"""
+			'''print("WALL " + action)'''
 			
 
 		elif(result == 'END'):
@@ -99,11 +102,6 @@ def df_search(curr_position):
 
 while(True):
 
-	x_dim = None
-	y_dim = None
-	x_start = None
-	y_start = None
-
 	game = requests.get(url + '/game?token=' + TOKEN)
 	game_data = game.json()
 
@@ -115,8 +113,11 @@ while(True):
 	dimension = game_data['maze_size']
 	position = game_data['current_location']
 
-	(x_dim, y_dim) = dimension
-	(x_start, y_start) = position
+	x_dim = dimension[0]
+	y_dim = dimension[1]
+
+	x_start = position[0]
+	y_start = position[1]
 
 	maze = [['?' for _ in range(x_dim) ] for _ in range(y_dim)]
 	maze[y_start][x_start] = 'S'
