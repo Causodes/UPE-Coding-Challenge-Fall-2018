@@ -14,7 +14,7 @@ uid = {'uid' : 704931660}
 session = requests.post(url + '/session', data = uid)
 session_data = session.json()
 TOKEN = session_data['token']
-print(TOKEN)
+"""print(TOKEN)"""
 
 """Depth First Search"""
 
